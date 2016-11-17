@@ -1,0 +1,75 @@
+comment "//" ;
+comment "/*" "*/" ;
+
+Prog.       Program   ::= [Entity] ;
+Ettstm.     Entity    ::= Stm ;
+Ettfundec.  Entity    ::= FunctionDeclare ;
+Ettfundef.  Entity    ::= Function ;
+
+Fundec. FunctionDeclare   ::= Type Ident "(" [FuncDeclarg] ")" ";" ;
+Fundef. Function    ::= Type Ident "(" [FuncDefarg] ")" "{" [Stm] "}" ;
+Vartypearg.   FuncDeclarg     ::= Type ;
+Varnamearg.   FuncDeclarg     ::= Type Ident ;
+Varinitarg.   FuncDeclarg     ::= Type Ident "=" Exp ;
+Vararg.       FuncDefarg      ::= Type Ident ;
+Varargass.    FuncDefarg      ::= Type Ident "=" Exp ;
+
+separator  FuncDeclarg "," ;
+separator  FuncDefarg "," ;
+terminator Entity "" ;
+terminator Stm "" ;
+
+DeclVar.        VarDecl ::= Ident ;
+DeclVarInit.    VarDecl ::= Ident "=" Exp ;
+separator   nonempty VarDecl "," ;
+SDecl.   Stm ::= Type [VarDecl] ";"  ;
+
+SExp.    Stm ::= Exp ";" ;
+SBlock.  Stm ::= "{" [Stm] "}" ;
+SIf.     Stm ::= "if" "(" Exp ")" Stm ;
+SIfElse. Stm ::= "if" "(" Exp ")" Stm "else" Stm ;
+SWhile.  Stm ::= "while" "(" Exp ")" Stm ;
+SReturn. Stm ::= "return" Exp ";" ;
+SRetnul. Stm ::= "return" ";" ;
+SPrint.  Stm ::= "print" Exp ";" ;
+
+EAssign.    Exp ::= Ident "=" Exp2 ;
+Edisjunc.   Exp3 ::= Exp3 "||" Exp3 ;
+Econjunc.   Exp4 ::= Exp4 "&&" Exp5 ;
+Eeq.        Exp8 ::= Exp8 "==" Exp9 ;
+Eineq.      Exp8 ::= Exp8 "!=" Exp9 ;
+Ecmplt.     Exp9 ::= Exp9 "<" Exp10 ;
+Ecmpgt.     Exp9 ::= Exp9 ">" Exp10 ;
+Ecmplet.    Exp9 ::= Exp9 "<=" Exp10 ;
+Ecmpget.    Exp9 ::= Exp9 ">=" Exp10 ;
+EAdd.       Exp11 ::= Exp11 "+" Exp12 ;
+ESub.       Exp11 ::= Exp11 "-" Exp12 ;
+EMul.       Exp12 ::= Exp12 "*" Exp12 ;
+EDiv.       Exp12 ::= Exp12 "/" Exp12 ;
+ENeg.       Exp13 ::= "-" Exp13 ;
+Epos.       Exp13 ::= "+" Exp13 ;
+Epreinc.    Exp13 ::= "++" Ident ;
+Epredec.    Exp13 ::= "--" Ident ;
+Epostinc.   Exp14 ::= Ident "++" ;
+Epostdec.   Exp14 ::= Ident "--" ;
+Efunc.       Exp15 ::= Ident "(" ")";
+Efuncpar.    Exp15 ::= Ident "(" [Exp2] ")";
+Evar.       Exp16 ::= Ident ;
+Econst.     Exp16 ::= Constant ;
+
+separator Exp2 "," ;
+
+EString.       Constant ::= String ;
+Eint.          Constant ::= Integer;
+EDouble.       Constant ::= Double;
+Ebool_false.   Constant ::= "false" ;
+Ebool_true.    Constant ::= "true" ;
+
+coercions Exp 16 ;
+
+TInt.     Type ::= "int" ;
+TBool.    Type ::= "bool" ;
+TDouble.  Type ::= "double" ;
+TString.  Type ::= "string" ;
+TVoid.    Type ::= "void" ;
+
